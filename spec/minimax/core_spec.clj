@@ -20,18 +20,18 @@
 
 (describe "Scoring"
   (it "scores current victory"
-    (let [win-state (new-test-state [{:round 4 :player 0 :move-history :0} []])
-          terminal-scorer (new-terminal-scorer {{:round 4 :player 0 :move-history :0} 1})]
+    (let [win-state (new-test-state [{:round 0 :player 0 :move-history :0} []])
+          terminal-scorer (new-terminal-scorer {{:round 0 :player 0 :move-history :0} 1})]
       (should= 1 (score-for-current-player win-state terminal-scorer))))
 
   (it "looks one move ahead and sees all losses"
     (let [imminent-loss-state
           (new-test-state
-            [{:round 4 :player 0 :move-history :0} [
-              [{:round 4 :player 1 :move-history :00} []]]])
+            [{:round 0 :player 0 :move-history :0} [
+              [{:round 0 :player 1 :move-history :00} []]]])
           terminal-scorer
           (new-terminal-scorer {
-            {:round 4 :player 1 :move-history :00} 1
+            {:round 0 :player 1 :move-history :00} 1
           })]
       (should= -1 (score-for-current-player
                     imminent-loss-state
@@ -41,15 +41,15 @@
   (it "looks one move ahead and sees a mixture of wins ties and losses"
     (let [win-soon-state
           (new-test-state
-            [{:round 4 :player 0 :move-history :0} [
-              [{:round 4 :player 1 :move-history :00} []]
-              [{:round 4 :player 1 :move-history :01} []]
-              [{:round 4 :player 1 :move-history :02} []]]])
+            [{:round 0 :player 0 :move-history :0} [
+              [{:round 0 :player 1 :move-history :00} []]
+              [{:round 0 :player 1 :move-history :01} []]
+              [{:round 0 :player 1 :move-history :02} []]]])
           terminal-scorer
           (new-terminal-scorer {
-            {:round 4 :player 1 :move-history :00} 1
-            {:round 4 :player 1 :move-history :01} 0
-            {:round 4 :player 1 :move-history :02} -1
+            {:round 0 :player 1 :move-history :00} 1
+            {:round 0 :player 1 :move-history :01} 0
+            {:round 0 :player 1 :move-history :02} -1
           })]
       (should= -1 (score-for-current-player
                     win-soon-state
@@ -113,7 +113,7 @@
                 [{:round 1 :player 0 :move-history :000} []]
                 [{:round 1 :player 0 :move-history :001} []]
                 [{:round 1 :player 0 :move-history :002} []]]]
-              [{:round 0 :player 1 :move-history :1} [
+              [{:round 0 :player 1 :move-history :01} [
                 [{:round 1 :player 0 :move-history :010} []]
                 [{:round 1 :player 0 :move-history :011} []]
                 [{:round 1 :player 0 :move-history :012} []]]]]])
